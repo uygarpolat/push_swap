@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/13 18:13:37 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:46:04 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	print_stacks(t_stack *t)
 		ft_printf("_ ");
 		i++;
 	}
+	
 	while (i < t->argc - 1)
-		ft_printf("%d ", t->stack_a[i++]);
-	ft_printf("\n");
+		printf("%d ", t->stack_a[i++]);
+	printf("\n");
 	i = 0;
 	ft_printf("Stack B is: ");
 	while (i < t->argc - t->height_b - 1)
@@ -51,35 +52,18 @@ void	print_stacks(t_stack *t)
 		i++;
 	}	
 	while (i < t->argc - 1)
-		ft_printf("%d ", t->stack_b[i++]);
-	ft_printf("\n");
-}
-
-void	print_stacks_temp(t_stack *t)
-{
-	int	i;
-
-	i = 0;
-	ft_printf("Stack temp: ");
-	while (i < t->argc - t->height_a_temp - 1)
-	{
-		ft_printf("_ ");
-		i++;
-	}
-	while (i < t->argc - 1)
-		ft_printf("%d ", t->stack_a_temp[i++]);
-	ft_printf("\n");
+		printf("%d ", t->stack_b[i++]);
+	printf("\n");
 
 }
 
-int	move_sa(t_stack *t, int print_flag)
+int	move_sa(t_stack *t)
 {
 	int	temp;
 
 	if (t->height_a > 1)
 	{
-		if (print_flag == 1)
-			ft_printf("sa\n");
+		ft_printf("sa\n");
 		temp = t->stack_a[t->argc - t->height_a - 1];
 		t->stack_a[t->argc - t->height_a - 1] = t->stack_a[t->argc - t->height_a];
 		t->stack_a[t->argc - t->height_a] = temp;
@@ -89,14 +73,13 @@ int	move_sa(t_stack *t, int print_flag)
 		return (-1);
 }
 
-int	move_sb(t_stack *t, int print_flag)
+int	move_sb(t_stack *t)
 {
 	int	temp;
 
 	if (t->height_b > 1)
 	{
-		if (print_flag == 1)
-			ft_printf("sb\n");
+		ft_printf("sb\n");
 		temp = t->stack_b[t->argc - t->height_b - 1];
 		t->stack_b[t->argc - t->height_b - 1] = t->stack_b[t->argc - t->height_b];
 		t->stack_b[t->argc - t->height_b] = temp;
@@ -106,24 +89,22 @@ int	move_sb(t_stack *t, int print_flag)
 		return (-2);
 }
 
-int	move_ss(t_stack *t, int print_flag)
+int	move_ss(t_stack *t)
 {
-	if (move_sa(t, print_flag) + move_sb(t, print_flag) != 3)
+	if (move_sa(t) + move_sb(t) != 3)
 		return(-3);
 	else
 	{
-		if (print_flag == 1)
-			ft_printf("(meaning ss)\n");
+		ft_printf("(meaning ss)\n");
 		return(3);
 	}
 }
 
-int	move_pa(t_stack *t, int print_flag)
+int	move_pa(t_stack *t)
 {
 	if (t->height_b > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("pa\n");
+		ft_printf("pa\n");
 		t->stack_a[t->argc - t->height_a - 2] = t->stack_b[t->argc - t->height_b - 1];
 		t->height_b--;
 		t->height_a++;
@@ -132,12 +113,11 @@ int	move_pa(t_stack *t, int print_flag)
 	return (-4);
 }
 
-int	move_pb(t_stack *t, int print_flag)
+int	move_pb(t_stack *t)
 {
 	if (t->height_a > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("pb\n");
+		ft_printf("pb\n");
 		t->stack_b[t->argc - t->height_b - 2] = t->stack_a[t->argc - t->height_a - 1];
 		t->height_a--;
 		t->height_b++;
@@ -146,14 +126,13 @@ int	move_pb(t_stack *t, int print_flag)
 	return (-5);
 }
 
-int	move_ra(t_stack *t, int print_flag)
+int	move_ra(t_stack *t)
 {
 	int	temp;
 	int	i;
 	if (t->height_a > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("ra\n");
+		ft_printf("ra\n");
 		temp = t->stack_a[t->argc - t->height_a - 1];
 		i = 0;
 		while (i < t->height_a - 1)
@@ -167,14 +146,13 @@ int	move_ra(t_stack *t, int print_flag)
 	return (-6);
 }
 
-int	move_rb(t_stack *t, int print_flag)
+int	move_rb(t_stack *t)
 {
 	int	temp;
 	int	i;
 	if (t->height_b > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("rb\n");
+		ft_printf("rb\n");
 		temp = t->stack_b[t->argc - t->height_b - 1];
 		i = 0;
 		while (i < t->height_b - 1)
@@ -188,27 +166,25 @@ int	move_rb(t_stack *t, int print_flag)
 	return (-7);
 }
 
-int	move_rr(t_stack *t, int print_flag)
+int	move_rr(t_stack *t)
 {
-	if (move_ra(t, print_flag) + move_rb(t, print_flag) != 13)
+	if (move_ra(t) + move_rb(t) != 13)
 		return (-13);
 	else
 	{
-		if (print_flag == 1)
-			ft_printf("(meaning rr)\n");
+		ft_printf("(meaning rr)\n");
 		return (13);
 	}
 }
 
-int	move_rra(t_stack *t, int print_flag)
+int	move_rra(t_stack *t)
 {
 	int	temp;
 	int	i;
 
 	if (t->height_a > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("rra\n");
+		ft_printf("rra\n");
 		temp = t->stack_a[t->argc - 2];
 		i = 0;
 		while (i < t->height_a - 1)
@@ -222,15 +198,14 @@ int	move_rra(t_stack *t, int print_flag)
 	return (-8);
 }
 
-int	move_rrb(t_stack *t, int print_flag)
+int	move_rrb(t_stack *t)
 {
 	int	temp;
 	int	i;
 
 	if (t->height_b > 0)
 	{
-		if (print_flag == 1)
-			ft_printf("rrb\n");
+		ft_printf("rrb\n");
 		temp = t->stack_b[t->argc - 2];
 		i = 0;
 		while (i < t->height_b - 1)
@@ -244,14 +219,13 @@ int	move_rrb(t_stack *t, int print_flag)
 	return (-9);
 }
 
-int	move_rrr(t_stack *t, int print_flag)
+int	move_rrr(t_stack *t)
 {
-	if (move_rra(t, print_flag) + move_rrb(t, print_flag) != 17)
+	if (move_rra(t) + move_rrb(t) != 17)
 		return (-17);
 	else
 	{
-		if (print_flag == 1)
-			ft_printf("(meaning rrr)\n");
+		ft_printf("(meaning rrr)\n");
 		return (17);
 	}
 }
@@ -276,7 +250,7 @@ int	index_of_min_stack_a(t_stack *t)
 	return (INT_MAX);
 }
 
-void	push_min_to_top(t_stack *t, int print_flag)
+void	push_min_to_top(t_stack *t)
 {
 	int	min;
 	int	ra_distance;
@@ -288,35 +262,13 @@ void	push_min_to_top(t_stack *t, int print_flag)
 	if (ra_distance < rra_distance)
 	{
 		while (ra_distance--)
-			move_ra(t, print_flag);
+			move_ra(t);
 	}
 	else
 	{
 		while(rra_distance--)
-			move_rra(t, print_flag);
+			move_rra(t);
 	}
-}
-
-void	naive_sort(t_stack *t, int print_flag)
-{
-	int	i;
-
-	i = 0;
-	while (i < t->argc - 1)
-	{
-		push_min_to_top(t, print_flag);
-		t->stack_a_temp[i] = t->stack_a[t->argc - t->height_a - 1];
-		t->height_a_temp++;
-		move_pb(t, print_flag);
-		i++;
-	}
-	i = 0;
-	while (i < t->argc - 1)
-	{
-		move_pa(t, print_flag);
-		i++;
-	}
-
 }
 
 int	main(int argc, char **argv)
@@ -326,32 +278,34 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		ft_putstr_fd("Error", 2);
 	t_stack t;
-	t.argc = argc;
-	t.height_a = t.argc - 1;
+	t.height_a = argc - 1;
 	t.height_b = 0;
-	t.height_a_temp = t.argc - 1;
-	t.height_b_temp = 0;
-
+	t.argc = argc;
 	t.stack_a = malloc(sizeof(int) * t.height_a);
 	t.stack_b = malloc(sizeof(int) * t.height_a);
-	t.stack_a_temp = malloc(sizeof(int) * t.height_a);
-	t.stack_b_temp = malloc(sizeof(int) * t.height_a);
 
 	i = 0;
 	while (i < argc - 1)
 	{
 		t.stack_a[i] = ft_atoi(argv[1 + i]);
-		t.stack_a_temp[i] = ft_atoi(argv[1 + i]);
 		i++;
 	}
-	print_stacks(&t);
-	naive_sort(&t, 1);
-	print_stacks(&t);
-	print_stacks_temp(&t);
+	i = 0;
+	while (i < t.argc - 1)
+	{
+		push_min_to_top(&t);
+		move_pb(&t);
+		i++;
+	}
+	i = 0;
+	while (i < argc - 1)
+	{
+		move_pa(&t);
+		i++;
+	}
+	//print_stacks(&t);
 	free(t.stack_a);
 	free(t.stack_b);
-	free(t.stack_a_temp);
-	free(t.stack_b_temp);
 	return (0);	
 }
 
