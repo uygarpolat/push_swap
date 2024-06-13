@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/13 18:13:37 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/14 02:25:44 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	print_stacks_temp(t_stack *t)
 	int	i;
 
 	i = 0;
-	ft_printf("Stack temp: ");
+	ft_printf("Stack temp A: ");
 	while (i < t->argc - t->height_a_temp - 1)
 	{
 		ft_printf("_ ");
@@ -306,7 +306,6 @@ void	naive_sort(t_stack *t, int print_flag)
 	{
 		push_min_to_top(t, print_flag);
 		t->stack_a_temp[i] = t->stack_a[t->argc - t->height_a - 1];
-		t->height_a_temp++;
 		move_pb(t, print_flag);
 		i++;
 	}
@@ -316,7 +315,94 @@ void	naive_sort(t_stack *t, int print_flag)
 		move_pa(t, print_flag);
 		i++;
 	}
+}
 
+void	smart_sort(t_stack *t, int print_flag)
+{
+	int	i;
+	int	k;
+	int	pb_flag;
+	int	move_count;
+
+	pb_flag = 0;
+	move_count = 0;
+	i = 0;
+	while (i < t->argc - 1)
+	{
+		k = 0;
+		while (k < t->height_a_temp / 2)
+		{
+			if (t->stack_a_temp[k] == t->stack_a[t->argc - t->height_a - 1])
+			{
+				move_pb(t, print_flag);
+				move_count++;
+				pb_flag = 1;
+				break ;
+			}
+			k++;
+		}
+		if (pb_flag == 0)
+			move_ra(t, 0);
+		pb_flag = 0;
+		move_count++;
+		i++;
+	}
+	ft_printf("Move count is %d\n", move_count);
+}
+
+int	is_reverse_sorted(t_stack *t)
+{
+	int	i;
+	int	k;
+	int	counter;
+
+	counter = 0;
+	i = 0;
+	while (i < t->height_a)
+	{
+		k = 0;
+		counter = 0;
+		while (k < t->height_a)
+		{
+			if (t->stack_a[t->argc - 2 - k] != t->stack_a[t->argc - t->height_a - 1 + k])
+				break ;
+			else
+				counter++;
+			k++;
+		}
+		move_ra(t, 0);
+		i++;
+	}
+	if (counter == t->height_a)
+		return (counter);
+	return (0);
+}
+
+void test_sort(t_stack *t, int print_flag)
+{
+	int	i;
+
+	i = 0;
+	while (i < 100)
+	{
+		if (t->stack_a[t->argc - t->height_a - 1] < t->stack_a[t->argc - t->height_a])
+			move_sa(t, print_flag);
+		if (t->stack_a[t->argc - 2] < t->stack_a[t->argc - t->height_a - 1])
+			move_rra(t, print_flag);
+		else
+			move_ra(t, print_flag);
+		ft_printf("Internal iteration %d is below.\n", i);
+		print_stacks(t);
+		//ft_printf("is reverse sorted is %d in internal iteration %d\n", is_reverse_sorted(t), i);
+	/*	if (is_reverse_sorted(t))
+		{
+			ft_printf("Reverse sorted at internal iteration of %d", i);
+			print_stacks(t);
+			print_stacks_temp(t);
+			break ;
+		} */
+		i++;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -338,16 +424,32 @@ int	main(int argc, char **argv)
 	t.stack_b_temp = malloc(sizeof(int) * t.height_a);
 
 	i = 0;
-	while (i < argc - 1)
+	while (i < t.argc - 1)
 	{
 		t.stack_a[i] = ft_atoi(argv[1 + i]);
-		t.stack_a_temp[i] = ft_atoi(argv[1 + i]);
+		i++;
+	}
+	naive_sort(&t, 0);
+	i = 0;
+	while (i < t.argc - 1)
+	{
+		t.stack_a_temp[i] = t.stack_a[i];
+		i++;
+	}
+
+	i = 0;
+	while (i < t.argc - 1)
+	{
+		t.stack_a[i] = ft_atoi(argv[1 + i]);
 		i++;
 	}
 	print_stacks(&t);
-	naive_sort(&t, 1);
-	print_stacks(&t);
 	print_stacks_temp(&t);
+	test_sort(&t, 0);
+	//smart_sort(&t, 0);
+	//naive_sort(&t, 0);
+	//print_stacks(&t);
+	//print_stacks_temp(&t);
 	free(t.stack_a);
 	free(t.stack_b);
 	free(t.stack_a_temp);
