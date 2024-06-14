@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/14 02:25:44 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/14 14:25:52 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,7 +394,7 @@ void test_sort(t_stack *t, int print_flag)
 		ft_printf("Internal iteration %d is below.\n", i);
 		print_stacks(t);
 		//ft_printf("is reverse sorted is %d in internal iteration %d\n", is_reverse_sorted(t), i);
-	/*	if (is_reverse_sorted(t))
+	/*	if (is_reverse_sorted(t) == t->height_a)
 		{
 			ft_printf("Reverse sorted at internal iteration of %d", i);
 			print_stacks(t);
