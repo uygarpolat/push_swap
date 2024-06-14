@@ -6,11 +6,12 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/14 14:25:52 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/15 00:44:09 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+int	reverse_sort_b(t_stack *t, int print_flag);
 
 void	free_2d_array(void ***arr)
 {
@@ -317,7 +318,7 @@ void	naive_sort(t_stack *t, int print_flag)
 	}
 }
 
-void	smart_sort(t_stack *t, int print_flag)
+int smart_sort(t_stack *t, int print_flag)
 {
 	int	i;
 	int	k;
@@ -336,73 +337,88 @@ void	smart_sort(t_stack *t, int print_flag)
 			{
 				move_pb(t, print_flag);
 				move_count++;
+				//move_count = move_count + reverse_sort_b(t, print_flag);
 				pb_flag = 1;
 				break ;
 			}
 			k++;
 		}
 		if (pb_flag == 0)
-			move_ra(t, 0);
+		{
+			move_ra(t, print_flag);
+			move_count++;
+		}
 		pb_flag = 0;
-		move_count++;
 		i++;
 	}
-	ft_printf("Move count is %d\n", move_count);
+	ft_printf("smart_sort move count is %d\n", move_count);
+	return(move_count);
 }
 
-int	is_reverse_sorted(t_stack *t)
+int	is_reverse_sorted(t_stack *t, int *stack, int height)
 {
 	int	i;
-	int	k;
 	int	counter;
 
 	counter = 0;
 	i = 0;
-	while (i < t->height_a)
+	if (height < 3)
+		return (1);
+	while (i < height - 1)
 	{
-		k = 0;
-		counter = 0;
-		while (k < t->height_a)
-		{
-			if (t->stack_a[t->argc - 2 - k] != t->stack_a[t->argc - t->height_a - 1 + k])
-				break ;
-			else
-				counter++;
-			k++;
-		}
-		move_ra(t, 0);
+		if (stack[t->argc - height  - 1 + i] < stack[t->argc - height - 1 + i + 1])
+			counter++;
 		i++;
 	}
-	if (counter == t->height_a)
-		return (counter);
-	return (0);
+	if (counter < 2)
+		return (1);
+	else
+		return (0);
+
 }
 
-void test_sort(t_stack *t, int print_flag)
+int	reverse_sort_a(t_stack *t, int print_flag)
 {
-	int	i;
+	int	counter;
 
-	i = 0;
-	while (i < 100)
+	counter = 0;
+	while (!is_reverse_sorted(t, t->stack_a, t->height_a))
 	{
 		if (t->stack_a[t->argc - t->height_a - 1] < t->stack_a[t->argc - t->height_a])
+		{
 			move_sa(t, print_flag);
+			counter++;
+		}
 		if (t->stack_a[t->argc - 2] < t->stack_a[t->argc - t->height_a - 1])
 			move_rra(t, print_flag);
 		else
 			move_ra(t, print_flag);
-		ft_printf("Internal iteration %d is below.\n", i);
-		print_stacks(t);
-		//ft_printf("is reverse sorted is %d in internal iteration %d\n", is_reverse_sorted(t), i);
-	/*	if (is_reverse_sorted(t) == t->height_a)
-		{
-			ft_printf("Reverse sorted at internal iteration of %d", i);
-			print_stacks(t);
-			print_stacks_temp(t);
-			break ;
-		} */
-		i++;
+		counter++;
 	}
+	ft_printf("reverse_sort_a ended in %d moves.\n", counter);
+	return (counter);
+}
+
+int	reverse_sort_b(t_stack *t, int print_flag)
+{
+	int	counter;
+
+	counter = 0;
+	while (!is_reverse_sorted(t, t->stack_b, t->height_b))
+	{
+		if (t->stack_b[t->argc - t->height_b - 1] < t->stack_b[t->argc - t->height_b])
+		{
+			move_sb(t, print_flag);
+			counter++;
+		}
+		if (t->stack_b[t->argc - 2] < t->stack_b[t->argc - t->height_b - 1])
+			move_rrb(t, print_flag);
+		else
+			move_rb(t, print_flag);
+		counter++;
+	}
+	ft_printf("reverse_sort_b ended in %d moves.\n", counter);
+	return (counter);
 }
 
 int	main(int argc, char **argv)
@@ -443,11 +459,15 @@ int	main(int argc, char **argv)
 		t.stack_a[i] = ft_atoi(argv[1 + i]);
 		i++;
 	}
-	print_stacks(&t);
-	print_stacks_temp(&t);
-	test_sort(&t, 0);
+	
+	//print_stacks(&t);
+
+	smart_sort(&t, 1);
+	reverse_sort_a(&t, 1);
 	//smart_sort(&t, 0);
-	//naive_sort(&t, 0);
+	//naive_sort(&t, 1);
+	print_stacks(&t);
+	//test_sort(&t, 0);
 	//print_stacks(&t);
 	//print_stacks_temp(&t);
 	free(t.stack_a);
