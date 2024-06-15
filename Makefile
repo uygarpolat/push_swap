@@ -6,7 +6,7 @@
 #    By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 23:18:22 by upolat            #+#    #+#              #
-#    Updated: 2024/06/15 18:44:24 by upolat           ###   ########.fr        #
+#    Updated: 2024/06/16 01:40:42 by upolat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = push_swap
 
 SRC_DIR = src/mandatory
 
-SOURCES =	$(SRC_DIR)/main.c $(SRC_DIR)/handle_error.c \
+SOURCES =	$(SRC_DIR)/push_swap.c $(SRC_DIR)/handle_error.c \
 			$(SRC_DIR)/moves_1.c $(SRC_DIR)/moves_2.c $(SRC_DIR)/moves_3.c \
 
 OBJECTS = $(SOURCES:.c=.o)

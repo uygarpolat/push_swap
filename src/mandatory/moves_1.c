@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:30:06 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/15 18:33:04 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/15 21:56:57 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	move_sa(t_stack *t, int print_flag)
 		return (1);
 	}
 	else
-		return (-1);
+		return (0);
 }
 
 int	move_sb(t_stack *t, int print_flag)
@@ -42,21 +42,21 @@ int	move_sb(t_stack *t, int print_flag)
 		t->stack_b[t->argc - t->height_b - 1]
 			= t->stack_b[t->argc - t->height_b];
 		t->stack_b[t->argc - t->height_b] = temp;
-		return (2);
+		return (1);
 	}
 	else
-		return (-2);
+		return (0);
 }
 
 int	move_ss(t_stack *t, int print_flag)
 {
 	if (move_sa(t, print_flag) + move_sb(t, print_flag) != 3)
-		return (-3);
+		return (0);
 	else
 	{
 		if (print_flag == 1)
 			ft_printf("(meaning ss)\n");
-		return (3);
+		return (1);
 	}
 }
 

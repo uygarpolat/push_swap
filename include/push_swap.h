@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:22:27 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/15 19:02:15 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/16 00:31:32 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,25 @@ typedef struct s_stack
 {
 	int	*stack_a;
 	int	*stack_b;
-	int	*stack_a_temp;
-	int	*stack_b_temp;
 	int	height_a;
 	int	height_b;
-	int	height_a_temp;
-	int	height_b_temp;
 	int	argc;
 }		t_stack;
+
+typedef struct s_costs
+{
+	int	cost_ra;
+	int	cost_rra;
+	int	cost_rb;
+	int	cost_rrb;
+	int	execute_ra;
+	int	execute_rb;
+	int	execute_rr;
+	int	execute_rra;
+	int	execute_rrb;
+	int	execute_rrr;
+
+}		t_costs;
 
 // Moves
 int		move_sa(t_stack *t, int print_flag);
