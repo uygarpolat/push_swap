@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:22:27 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/15 18:48:24 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/15 19:02:15 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ typedef struct s_stack
 }		t_stack;
 
 // Moves
-int	move_sa(t_stack *t, int print_flag);
-int	move_sb(t_stack *t, int print_flag);
-int	move_ss(t_stack *t, int print_flag);
-int	move_pa(t_stack *t, int print_flag);
-int	move_pb(t_stack *t, int print_flag);
-int	move_ra(t_stack *t, int print_flag);
-int	move_rb(t_stack *t, int print_flag);
-int	move_rr(t_stack *t, int print_flag);
-int	move_rra(t_stack *t, int print_flag);
-int	move_rrb(t_stack *t, int print_flag);
-int	move_rrr(t_stack *t, int print_flag);
+int		move_sa(t_stack *t, int print_flag);
+int		move_sb(t_stack *t, int print_flag);
+int		move_ss(t_stack *t, int print_flag);
+int		move_pa(t_stack *t, int print_flag);
+int		move_pb(t_stack *t, int print_flag);
+int		move_ra(t_stack *t, int print_flag);
+int		move_rb(t_stack *t, int print_flag);
+int		move_rr(t_stack *t, int print_flag);
+int		move_rra(t_stack *t, int print_flag);
+int		move_rrb(t_stack *t, int print_flag);
+int		move_rrr(t_stack *t, int print_flag);
 
 void	free_stacks(t_stack *t);
 int		check_error(int argc, char **argv, t_stack *t);
