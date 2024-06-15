@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 23:04:19 by upolat            #+#    #+#             */
-/*   Updated: 2024/04/23 18:19:57 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:29:45 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	ft_atoi(const char *str)
 		str++;
 	while (*str >= '0' && *str <= '9')
 	{
-		if (sign == 1 && (nbr > (LONG_MAX - (*str - '0')) / 10))
-			return (-1);
-		else if (sign == -1 && (-nbr < (LONG_MIN + (*str - '0')) / 10))
+		if (sign == 1 && (nbr > (INT_MAX - (*str - '0')) / 10))
+			return (0);
+		else if (sign == -1 && (-nbr < (INT_MIN + (*str - '0')) / 10))
 			return (0);
 		nbr = nbr * 10 + *str - '0';
 		str++;
