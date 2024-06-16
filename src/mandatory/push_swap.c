@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/17 01:02:58 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 01:15:22 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -639,8 +639,8 @@ int	main(int argc, char **argv)
 		sort_two_or_three_ascending(&t, 1);
 		return (0);
 	}
-	sorter(&t, 1);
-	//print_stacks(&t);
+	sorter(&t, 0);
+	print_stacks(&t);
 	free_stacks(&t);
 	return (0);
 }
