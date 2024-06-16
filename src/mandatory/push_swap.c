@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/16 22:57:25 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 01:02:58 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,7 +492,7 @@ int	reverse_sort_a(t_stack *t, int print_flag)
 	return (counter);
 }
 */
-int	reverse_sort_b(t_stack *t, int print_flag)
+int	reverse_sort_b_2(t_stack *t, int print_flag)
 {
 	int	counter;
 	int	i;
@@ -536,6 +536,38 @@ int	reverse_sort_b(t_stack *t, int print_flag)
 	return (counter);
 }
 
+void	reverse_sort_b(t_stack *t, int print_flag)
+{
+	int	i;
+	int	top_index;
+	int	index;
+	int	max;
+
+	max = t->stack_b[t->argc - t->height_b - 1];
+	top_index = t->argc - t->height_b - 1;
+	i = 0;
+	while (i < t->height_b)
+	{
+		if (t->stack_b[top_index + i] > max)
+		{
+			max = t->stack_b[top_index + i];
+			index = i;
+		}
+		i++;
+	}
+	if (index < t->height_b / 2)
+	{
+		while (index--)
+			move_rb(t, print_flag);
+	}
+	else
+	{
+		index = t->height_b - index;
+		while (index--)
+			move_rrb(t, print_flag);
+	}
+}
+
 void	final_push_to_a(t_stack *t, int print_flag)
 {
 	int	i;
@@ -558,6 +590,9 @@ void	final_push_to_a(t_stack *t, int print_flag)
 			i++;
 		}
 	}
+	flag = 3 - flag;
+	while (flag-- > 0) // THIS IS ABSOLUTELY SPECULATIVE; FULLY UNDERSTAND THE EDGE CASES!
+		move_rra(t, print_flag);
 }
 
 void	sorter(t_stack *t, int print_flag)
