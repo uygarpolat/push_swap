@@ -6,7 +6,7 @@
 #    By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 23:18:22 by upolat            #+#    #+#              #
-#    Updated: 2024/06/16 01:40:42 by upolat           ###   ########.fr        #
+#    Updated: 2024/06/16 22:17:52 by upolat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ INCLUDES = -I./include -I$(libft_dir)
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(libft)
-	cc $(CFLAGS) $(INCLUDES) $(OBJECTS) -L$(libft_dir) -lft -o $@
+	cc $(CFLAGS) -g3 -fsanitize=address $(INCLUDES) $(OBJECTS) -L$(libft_dir) -lft -o $@
 
 $(libft):
 	$(MAKE) -C $(libft_dir)

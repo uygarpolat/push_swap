@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:33:12 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/15 18:41:33 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/16 17:50:15 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	move_rb(t_stack *t, int print_flag)
 
 int	move_rr(t_stack *t, int print_flag)
 {
-	if (move_ra(t, print_flag) + move_rb(t, print_flag) != 13)
+	if (move_ra(t, 0) + move_rb(t, 0) != 13)
 		return (-13);
 	else
 	{
 		if (print_flag == 1)
-			ft_printf("(meaning rr)\n");
+			ft_printf("rr\n");
 		return (13);
 	}
 }

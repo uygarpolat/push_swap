@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:22:27 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/16 00:31:32 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/16 11:24:21 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_costs
 	int	execute_rra;
 	int	execute_rrb;
 	int	execute_rrr;
+	int	min_cost;
 
 }		t_costs;
 

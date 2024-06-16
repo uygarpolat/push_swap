@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:30:06 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/15 21:56:57 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/16 17:24:56 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	move_ss(t_stack *t, int print_flag)
 	else
 	{
 		if (print_flag == 1)
-			ft_printf("(meaning ss)\n");
+			ft_printf("ss\n");
 		return (1);
 	}
 }
