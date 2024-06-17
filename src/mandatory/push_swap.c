@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/17 14:44:49 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:58:43 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,6 +422,7 @@ void	reverse_sort_b(t_stack *t, int print_flag)
 
 	max = t->stack_b[t->argc - t->height_b - 1];
 	top_index = t->argc - t->height_b - 1;
+	index = 0;
 	i = 0;
 	while (i < t->height_b)
 	{
