@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/17 08:30:55 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 09:13:46 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,6 @@ void	free_stacks(t_stack *t)
 		free(t->stack_b);
 		t->stack_b = NULL;
 	}
-}
-
-int	index_of_insertion_in_b_SOMEWHAT_WORKING(t_stack *t, int index)
-{
-	int	i;
-	int	target;
-
-	target = t->stack_a[t->argc - t->height_a - 1 + index];
-	i = 0;
-	while (i < t->height_b - 1)
-	{
-		if ((t->stack_b[t->argc - t->height_b - 1 + i] > target) && (t->stack_b[t->argc - t->height_b - 1 + i + 1] < target))
-			return (i + 1);
-		i++;
-	}
-	return (0);
 }
 
 int	get_min_index(t_stack *t)
@@ -147,11 +131,11 @@ int	index_of_insertion_in_b(t_stack *t, int index)
 		return ((min_index_of_b + 1) % t->height_b);
 	else if (target > t->stack_b[top_of_b + max_index_of_b])
 		return ((max_index_of_b) % t->height_b);
-
 	i = 0;
 	while (i < t->height_b - 1)
 	{
-		if ((t->stack_b[top_of_b + i] > target) && (t->stack_b[top_of_b + i + 1] < target))
+		if ((t->stack_b[top_of_b + i] > target)
+			&& (t->stack_b[top_of_b + i + 1] < target))
 			return (i + 1);
 		i++;
 	}
@@ -261,7 +245,6 @@ void	execute_group_3(t_stack *t, t_costs *c, int print_flag)
 {
 	c->execute_ra = c->cost_ra;
 	c->execute_rrb = c->cost_rrb;
-	
 	while (c->execute_rrb--)
 		move_rrb(t, print_flag);
 	while (c->execute_ra--)
@@ -272,7 +255,6 @@ void	execute_group_4(t_stack *t, t_costs *c, int print_flag)
 {
 	c->execute_rb = c->cost_rb;
 	c->execute_rra = c->cost_rra;
-
 	while (c->execute_rb--)
 		move_rb(t, print_flag);
 	while (c->execute_rra--)
@@ -283,32 +265,17 @@ void	choose_execution(t_stack *t, t_costs *c, int print_flag)
 {
 	int	min;
 
-	min = min_finder(max_finder(c->cost_ra, c->cost_rb), max_finder(c->cost_rra, c->cost_rrb), c->cost_ra + c->cost_rrb, c->cost_rb + c->cost_rra);
-			// Compare these:
-			// 1) maximum of ra and rb
-			// 2) maximum of rra and rrb
-			// 3) ra + rrb
-			// 4) rb + rra
+	min = min_finder(max_finder(c->cost_ra, c->cost_rb),
+			max_finder(c->cost_rra, c->cost_rrb), c->cost_ra + c->cost_rrb,
+			c->cost_rb + c->cost_rra);
 	if (min == max_finder(c->cost_ra, c->cost_rb))
-	{
-		//ft_printf("Winning strategy is: Group 1\n");
 		execute_group_1(t, c, print_flag);
-	}
 	else if (min == max_finder(c->cost_rra, c->cost_rrb))
-	{
-		//ft_printf("Winning strategy is: Group 2\n");
 		execute_group_2(t, c, print_flag);
-	}
 	else if (min == c->cost_ra + c->cost_rrb)
-	{
-		//ft_printf("Winning strategy is: Group 3\n");
 		execute_group_3(t, c, print_flag);
-	}
 	else if (min == c->cost_rra + c->cost_rb)
-	{
-		//ft_printf("Winning strategy is: Group 4\n");
 		execute_group_4(t, c, print_flag);
-	}
 	reset_stack_c(c);
 }
 
@@ -323,7 +290,10 @@ void	calculate_and_execute(t_stack *t, int print_flag)
 	i = 0;
 	while (i < t->height_a)
 	{
-		best = min_finder(max_finder(i, index_of_insertion_in_b(t, i)), max_finder(t->height_a - i, t->height_b - index_of_insertion_in_b(t, i)), i + t->height_b - index_of_insertion_in_b(t, i),
+		best = min_finder(max_finder(i, index_of_insertion_in_b(t, i)),
+				max_finder(t->height_a - i,
+					t->height_b - index_of_insertion_in_b(t, i)),
+				i + t->height_b - index_of_insertion_in_b(t, i),
 				index_of_insertion_in_b(t, i) + t->height_a - i);
 		if (best < c.min_cost)
 		{
@@ -332,11 +302,6 @@ void	calculate_and_execute(t_stack *t, int print_flag)
 			c.cost_rra = t->height_a - i; // 5
 			c.cost_rb = index_of_insertion_in_b(t, i); // 2
 			c.cost_rrb = t->height_b - index_of_insertion_in_b(t, i); // 2
-			// Compare these:
-			// 1) maximum of ra and rb
-			// 2) maximum of rra and rrb
-			// 3) ra + rrb
-			// 4) rb + rra
 		}
 		i++;
 	}
@@ -363,7 +328,8 @@ int	is_two_or_three_pseudo_sorted_ascending(t_stack *t)
 		j = 0;
 		while (j < t->height_a - 1)
 		{
-			if (t->stack_a[t->argc - t->height_a - 1 + j] < t->stack_a[t->argc - t->height_a - 1 + j + 1])
+			if (t->stack_a[t->argc - t->height_a - 1 + j]
+				< t->stack_a[t->argc - t->height_a - 1 + j + 1])
 				flag++;
 			j++;
 		}
@@ -372,14 +338,12 @@ int	is_two_or_three_pseudo_sorted_ascending(t_stack *t)
 			while (i < t->height_a)
 			{
 				move_ra(t, 0);
-				//ft_printf("Moved SA!\n");
 				i++;
 			}
 			return (1);
 		}
 		flag = 0;
 		move_ra(t, 0);
-		//ft_printf("Moved SA!\n");
 		i++;
 	}
 	return (0);
@@ -409,10 +373,11 @@ void	sort_two_or_three_ascending(t_stack *t, int print_flag)
 		return ;
 	if (!is_fully_sorted_ascending(t))
 	{
-		if (t->stack_a[t->argc - t->height_a - 1] > t->stack_a[t->argc - t->height_a - 1 + 1])
+		if (t->stack_a[t->argc - t->height_a - 1]
+			> t->stack_a[t->argc - t->height_a - 1 + 1])
 			move_ra(t, print_flag);
-		else	
-			move_rra(t, print_flag);	
+		else
+			move_rra(t, print_flag);
 	}
 }
 
@@ -429,7 +394,8 @@ int	is_reverse_sorted(t_stack *t, int *stack, int height)
 		return (1);
 	while (i < height - 1)
 	{
-		if (stack[t->argc - height  - 1 + i] < stack[t->argc - height - 1 + i + 1])
+		if (stack[t->argc - height - 1 + i]
+			< stack[t->argc - height - 1 + i + 1])
 		{
 			counter++;
 			flag = i + 1;
@@ -445,95 +411,6 @@ int	is_reverse_sorted(t_stack *t, int *stack, int height)
 		return (flag);
 	else
 		return (-1);
-}
-/*
-int	reverse_sort_a(t_stack *t, int print_flag)
-{
-	int	counter;
-	int	i;
-	int	n;
-
-	counter = 0;
-	while (is_reverse_sorted(t, t->stack_a, t->height_a) < 0)
-	{
-		if (t->stack_a[t->argc - t->height_a - 1] < t->stack_a[t->argc - t->height_a])
-		{
-			move_sa(t, print_flag);
-			counter++;
-		}
-		if (t->stack_a[t->argc - 2] < t->stack_a[t->argc - t->height_a - 1])
-			move_rra(t, print_flag);
-		else
-			move_ra(t, print_flag);
-		counter++;
-	}
-	i = is_reverse_sorted(t, t->stack_a, t->height_a);
-	//ft_printf("is_reverse_sorted return value is: %d\n", i);
-	//ft_printf("Situation before rb or rrb:\n");
-	//print_stacks(t);
-	if (i <= t->height_a / 2)
-	{
-		counter = counter + i;
-		while (i--)
-			move_ra(t, print_flag);
-	}
-	else
-	{
-		n = t->height_a - 1;
-		counter = counter + n;
-		while (n--)
-			move_rra(t, print_flag);
-	}
-	//ft_printf("Situation after rb or rrb:\n");
-	//print_stacks(t);
-	//ft_printf("reverse_sort_b ended in %d moves.\n", counter);
-	//ft_printf("\n");
-	ft_printf("reverse_sort_a move count is %d\n", counter);
-	return (counter);
-}
-*/
-int	reverse_sort_b_2(t_stack *t, int print_flag)
-{
-	int	counter;
-	int	i;
-	int	n;
-
-	counter = 0;
-	while (is_reverse_sorted(t, t->stack_b, t->height_b) < 0)
-	{
-	/*	if (t->stack_b[t->argc - t->height_b - 1] < t->stack_b[t->argc - t->height_b])
-		{
-			move_sb(t, print_flag);
-			counter++;
-		}
-		if (t->stack_b[t->argc - 2] < t->stack_b[t->argc - t->height_b - 1])
-			move_rrb(t, print_flag);
-		else
-			move_rb(t, print_flag);
-		counter++; */
-		move_sb(t, print_flag);
-		counter++;
-		if (is_reverse_sorted(t, t->stack_b, t->height_b) >= 0)
-			break ;
-		move_rb(t, print_flag);
-		counter++;
-	}
-	i = is_reverse_sorted(t, t->stack_b, t->height_b);
-	if (i <= t->height_b / 2)
-	{
-		counter = counter + i;
-		while (i--)
-			move_rb(t, print_flag);
-	}
-	else
-	{
-		n = t->height_b - 1;
-		counter = counter + n;
-		while (n--)
-			move_rrb(t, print_flag);
-	}
-	//ft_printf("reverse_sort_b move count is %d\n", counter);
-	return (counter);
 }
 
 void	reverse_sort_b(t_stack *t, int print_flag)
@@ -579,7 +456,8 @@ void	final_push_to_a(t_stack *t, int print_flag)
 	iteration = t->height_b;
 	while (i < iteration)
 	{
-		if (t->stack_b[t->argc - t->height_b - 1] < t->stack_a[t->argc - 2] && flag < 3)
+		if (t->stack_b[t->argc - t->height_b - 1]
+			< t->stack_a[t->argc - 2] && flag < 3)
 		{
 			move_rra(t, print_flag);
 			flag++;
@@ -602,27 +480,20 @@ void	sorter(t_stack *t, int print_flag)
 	i = 0;
 	while (i < t->argc - 1 - 2)
 	{
-		//ft_printf("------------- BEGINNING OF ITERATION ---------------------\n");
 		if (t->height_b < 2)
-		{
 			move_pb(t, print_flag);
-			//print_stacks(t);
-		}
 		else if (t->height_a > 3)
 		{
 			calculate_and_execute(t, print_flag);
 			move_pb(t, print_flag);
-			//print_stacks(t);
 		}
 		else
 		{
-			//ft_printf("I ran sort_two_or_three_ascending.\n");
 			sort_two_or_three_ascending(t, print_flag);
 			reverse_sort_b(t, print_flag);
 			final_push_to_a(t, print_flag);
 		}
 		i++;
-		//ft_printf("------------- END OF ITERATION ---------------------\n\n");
 	}
 }
 
