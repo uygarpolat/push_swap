@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/17 16:58:43 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 21:11:01 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ int	is_two_or_three_pseudo_sorted_ascending(t_stack *t)
 	return (0);
 }
 
-int	is_fully_sorted_ascending(t_stack *t)
+int	is_fully_sorted_ascending(t_stack *t, int print_flag)
 {
 	int	i;
 	int	index_of_top_a;
@@ -359,7 +359,15 @@ int	is_fully_sorted_ascending(t_stack *t)
 	while (i < t->height_a - 1)
 	{
 		if (t->stack_a[index_of_top_a + i] > t->stack_a[index_of_top_a + i + 1])
-			return (0);
+		{
+			if (t->height_a == 2)
+			{
+				move_sa(t, print_flag);
+				return (1);
+			}
+			else
+				return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -367,11 +375,14 @@ int	is_fully_sorted_ascending(t_stack *t)
 
 void	sort_two_or_three_ascending(t_stack *t, int print_flag)
 {
+	if (t->height_a == 2)
+	{
+		is_fully_sorted_ascending(t, print_flag);
+		return ;
+	}
 	if (!is_two_or_three_pseudo_sorted_ascending(t))
 		move_sa(t, print_flag);
-	if (t->height_a == 2)
-		return ;
-	if (!is_fully_sorted_ascending(t))
+	if (!is_fully_sorted_ascending(t, print_flag))
 	{
 		if (t->stack_a[t->argc - t->height_a - 1]
 			> t->stack_a[t->argc - t->height_a - 1 + 1])
@@ -453,7 +464,10 @@ void	final_push_to_a(t_stack *t, int print_flag)
 	int	iteration;
 
 	i = 0;
-	flag = 0;
+	if (t->argc == 5)
+		flag = 1;
+	else
+		flag = 0;
 	iteration = t->height_b;
 	while (i < iteration)
 	{
@@ -479,7 +493,7 @@ void	sorter(t_stack *t, int print_flag)
 	int	i;
 
 	i = 0;
-	while (i < t->argc - 1 - 2)
+	while (i < t->argc - 1 - 1)
 	{
 		if (t->height_b < 2)
 			move_pb(t, print_flag);
@@ -493,6 +507,7 @@ void	sorter(t_stack *t, int print_flag)
 			sort_two_or_three_ascending(t, print_flag);
 			reverse_sort_b(t, print_flag);
 			final_push_to_a(t, print_flag);
+			break ;
 		}
 		i++;
 	}
@@ -503,15 +518,16 @@ int	main(int argc, char **argv)
 	t_stack	t;
 
 	if (check_error(argc, argv, &t) < 0)
-		return (ft_putstr_fd("Error\n", 2), 0);
-	if (is_fully_sorted_ascending(&t))
-		return (0);
-	if (t.height_a < 4)
+		return (ft_putstr_fd("Error\n", 2), 1);
+	if (is_fully_sorted_ascending(&t, 1))
 	{
-		sort_two_or_three_ascending(&t, 1);
+		free_stacks(&t);
 		return (0);
 	}
-	sorter(&t, 1);
+	if (t.height_a < 4)
+		sort_two_or_three_ascending(&t, 1);
+	else
+		sorter(&t, 1);
 	//print_stacks(&t);
 	free_stacks(&t);
 	return (0);
