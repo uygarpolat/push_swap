@@ -6,7 +6,7 @@
 #    By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 23:18:22 by upolat            #+#    #+#              #
-#    Updated: 2024/06/18 00:43:27 by upolat           ###   ########.fr        #
+#    Updated: 2024/06/18 01:05:12 by upolat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR = src/mandatory
 SOURCES =	$(SRC_DIR)/push_swap.c $(SRC_DIR)/handle_error.c \
 			$(SRC_DIR)/moves_1.c $(SRC_DIR)/moves_2.c $(SRC_DIR)/moves_3.c \
 			$(SRC_DIR)/execute_1.c $(SRC_DIR)/execute_2.c \
-			$(SRC_DIR)/sorters_1.c $(SRC_DIR)/find_min_max.c \
+			$(SRC_DIR)/sorters.c $(SRC_DIR)/find_min_max.c \
 			$(SRC_DIR)/utils.c\
 
 OBJECTS = $(SOURCES:.c=.o)
