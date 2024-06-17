@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/17 21:11:01 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/17 23:34:05 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,31 +298,20 @@ void	calculate_and_execute(t_stack *t, int print_flag)
 		if (best < c.min_cost)
 		{
 			c.min_cost = best;
-			c.cost_ra = i; // 0
-			c.cost_rra = t->height_a - i; // 5
-			c.cost_rb = index_of_insertion_in_b(t, i); // 2
-			c.cost_rrb = t->height_b - index_of_insertion_in_b(t, i); // 2
+			c.cost_ra = i;
+			c.cost_rra = t->height_a - i;
+			c.cost_rb = index_of_insertion_in_b(t, i);
+			c.cost_rrb = t->height_b - index_of_insertion_in_b(t, i);
 		}
 		i++;
 	}
-/*	ft_printf("Best numbers that won is among these:\n");
-	ft_printf("The number chosen to be pushed from A to B is: %d\n", t->stack_a[t->argc - t->height_a - 1 + c.cost_ra]); // c.cost_ra is used because it is always set to "i".
-	ft_printf("least number of moves: %d\n", c.min_cost);
-	ft_printf("c.cost_ra: %d\n", c.cost_ra);
-	ft_printf("c.cost_rra: %d\n", c.cost_rra);
-	ft_printf("c.cost_rb: %d\n", c.cost_rb);
-	ft_printf("c.cost_rrb: %d\n", c.cost_rrb);*/
 	choose_execution(t, &c, print_flag);
 }
 
-int	is_two_or_three_pseudo_sorted_ascending(t_stack *t)
+int	is_two_or_three_pseudo_sorted_ascending(t_stack *t, int i, int flag)
 {
-	int	i;
 	int	j;
-	int	flag;
 
-	i = 0;
-	flag = 0;
 	while (i < t->height_a)
 	{
 		j = 0;
@@ -335,11 +324,8 @@ int	is_two_or_three_pseudo_sorted_ascending(t_stack *t)
 		}
 		if (flag == t->height_a - 1)
 		{
-			while (i < t->height_a)
-			{
+			while (i++ < t->height_a)
 				move_ra(t, 0);
-				i++;
-			}
 			return (1);
 		}
 		flag = 0;
@@ -380,7 +366,7 @@ void	sort_two_or_three_ascending(t_stack *t, int print_flag)
 		is_fully_sorted_ascending(t, print_flag);
 		return ;
 	}
-	if (!is_two_or_three_pseudo_sorted_ascending(t))
+	if (!is_two_or_three_pseudo_sorted_ascending(t, 0, 0))
 		move_sa(t, print_flag);
 	if (!is_fully_sorted_ascending(t, print_flag))
 	{
@@ -392,49 +378,13 @@ void	sort_two_or_three_ascending(t_stack *t, int print_flag)
 	}
 }
 
-int	is_reverse_sorted(t_stack *t, int *stack, int height)
+void	reverse_sort_b(t_stack *t, int print_flag, int i, int index)
 {
-	int	i;
-	int	counter;
-	int	flag;
-
-	flag = 0;
-	counter = 0;
-	i = 0;
-	if (height < 3)
-		return (1);
-	while (i < height - 1)
-	{
-		if (stack[t->argc - height - 1 + i]
-			< stack[t->argc - height - 1 + i + 1])
-		{
-			counter++;
-			flag = i + 1;
-		}
-		i++;
-	}
-	if (stack[t->argc - 2] < stack[t->argc - height - 1])
-	{
-		counter++;
-		flag = 0;
-	}
-	if (counter < 2)
-		return (flag);
-	else
-		return (-1);
-}
-
-void	reverse_sort_b(t_stack *t, int print_flag)
-{
-	int	i;
 	int	top_index;
-	int	index;
 	int	max;
 
 	max = t->stack_b[t->argc - t->height_b - 1];
 	top_index = t->argc - t->height_b - 1;
-	index = 0;
-	i = 0;
 	while (i < t->height_b)
 	{
 		if (t->stack_b[top_index + i] > max)
@@ -457,13 +407,11 @@ void	reverse_sort_b(t_stack *t, int print_flag)
 	}
 }
 
-void	final_push_to_a(t_stack *t, int print_flag)
+void	final_push_to_a(t_stack *t, int print_flag, int i)
 {
-	int	i;
 	int	flag;
 	int	iteration;
 
-	i = 0;
 	if (t->argc == 5)
 		flag = 1;
 	else
@@ -484,7 +432,7 @@ void	final_push_to_a(t_stack *t, int print_flag)
 		}
 	}
 	flag = 3 - flag;
-	while (flag-- > 0) // THIS IS ABSOLUTELY SPECULATIVE; FULLY UNDERSTAND THE EDGE CASES!
+	while (flag-- > 0)
 		move_rra(t, print_flag);
 }
 
@@ -505,8 +453,8 @@ void	sorter(t_stack *t, int print_flag)
 		else
 		{
 			sort_two_or_three_ascending(t, print_flag);
-			reverse_sort_b(t, print_flag);
-			final_push_to_a(t, print_flag);
+			reverse_sort_b(t, print_flag, 0, 0);
+			final_push_to_a(t, print_flag, 0);
 			break ;
 		}
 		i++;
@@ -528,7 +476,6 @@ int	main(int argc, char **argv)
 		sort_two_or_three_ascending(&t, 1);
 	else
 		sorter(&t, 1);
-	//print_stacks(&t);
 	free_stacks(&t);
 	return (0);
 }
