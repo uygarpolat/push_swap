@@ -6,14 +6,13 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:22:27 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 00:49:59 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:34:56 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdlib.h>
 # include "../libft/libft.h"
 
 typedef struct s_stack
