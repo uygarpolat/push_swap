@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:02:22 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 19:40:48 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/19 00:38:43 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ int	ft_isnum(char *str)
 {
 	int	i;
 
+	if (!ft_strncmp(str, "+", 2) || !ft_strncmp(str, "-", 2))
+		return (0);
 	i = 0;
+	if (ft_strlen(str) == 0)
+		return (0);
 	while (str[i])
 	{
-		if (str[i] != '-' && str[i] != '+' && (str[i] < '0' || str[i] > '9'))
+		if ((str[i] != '-' || i != 0) && (str[i] != '+'
+				|| i != 0) && (str[i] < '0' || str[i] > '9'))
 			return (0);
 		i++;
 	}
