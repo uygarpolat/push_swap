@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 14:49:54 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 16:30:50 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,11 @@ void	read_from_stdin(t_stack *t, int print_flag)
 int	main(int argc, char **argv)
 {
 	t_stack	t;
-	int		max;
 
+	if (argc == 1)
+		return (0);
 	if (check_error(argc, argv, &t) < 0)
-	{	
-		max = 100000;
-		while(max)
-			max--;
 		return (ft_putstr_fd("Error\n", 2), 1);
-	}
 	read_from_stdin(&t, 0);
 	if (is_fully_sorted_ascending(&t, 0) && t.height_b == 0)
 		error_handler("OK\n", &t, 1);
