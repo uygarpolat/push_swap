@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 18:02:22 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 01:54:52 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:40:48 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,15 @@ int	number_recurrence_check(t_stack *t)
 
 int	check_error(int argc, char **argv, t_stack *t)
 {
-	int		number_count;
+	int	number_count;
+	int	i;
 
+	i = 1;
+	while (argv[i])
+	{
+		if (ft_strlen(argv[i++]) == 0)
+			return (-1);
+	}
 	number_count = number_validity_check(argc, argv);
 	if (number_count == -1)
 		return (-1);
