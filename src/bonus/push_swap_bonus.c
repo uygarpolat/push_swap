@@ -6,29 +6,55 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 03:20:10 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 04:26:12 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
 
-void	read_from_stdin(t_stack *t)
+void	input_checker(t_stack *t, char *str, int print_flag)
 {
-	char *str;
-	(void)t;
+	if (!ft_strncmp(str, "sa\n", 3))
+		move_sa(t, print_flag);
+	else if (!ft_strncmp(str, "sb\n", 3))
+		move_sb(t, print_flag);
+	else if (!ft_strncmp(str, "ss\n", 3))
+		move_ss(t, print_flag);
+	else if (!ft_strncmp(str, "pa\n", 3))
+		move_pa(t, print_flag);
+	else if (!ft_strncmp(str, "pb\n", 3))
+		move_pb(t, print_flag);
+	else if (!ft_strncmp(str, "ra\n", 3))
+		move_ra(t, print_flag);
+	else if (!ft_strncmp(str, "rb\n", 3))
+		move_rb(t, print_flag);
+	else if (!ft_strncmp(str, "rr\n", 3))
+		move_rr(t, print_flag);
+	else if (!ft_strncmp(str, "rra\n", 4))
+		move_rra(t, print_flag);
+	else if (!ft_strncmp(str, "rrb\n", 4))
+		move_rrb(t, print_flag);
+	else if (!ft_strncmp(str, "rrr\n", 4))
+		move_rrr(t, print_flag);
+	else
+		ft_putstr_fd("Error\n", 2); // Abort if error happens.
+}
+
+void	read_from_stdin(t_stack *t, int print_flag)
+{
+	char	*str;
+
 	while (1)
 	{
-		//ft_putstr_fd("> ", STDIN_FILENO);
 		str = get_next_line(STDIN_FILENO);
-		if (str[0] ==  '\n')
+		if (!str)
 			break ;
-		//ft_putstr_fd(str, STDOUT_FILENO);
+		input_checker(t, str, print_flag);
 		free(str);
 		str = NULL;
 	}
-	free(str);
+	free(str); // Would this double-free? Isn't it already free when it exits the loop?
 	str = NULL;
-
 }
 
 int	main(int argc, char **argv)
@@ -37,16 +63,11 @@ int	main(int argc, char **argv)
 
 	if (check_error(argc, argv, &t) < 0)
 		return (ft_putstr_fd("Error\n", 2), 1);
-	read_from_stdin(&t);
-	if (is_fully_sorted_ascending(&t, 0))
-	{
-		free_stacks(&t);
-		return (0);
-	}
-	if (t.height_a < 4)
-		sort_two_or_three_ascending(&t, 1);
+	read_from_stdin(&t, 0);
+	if (is_fully_sorted_ascending(&t, 0) && t.height_b == 0)
+		ft_printf("OK\n");
 	else
-		sorter(&t, 0);
+		ft_printf("KO\n");
 	free_stacks(&t);
 	return (0);
 }
