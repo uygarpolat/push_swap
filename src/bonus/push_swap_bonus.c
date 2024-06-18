@@ -6,11 +6,18 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:11:59 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/18 04:26:12 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:49:54 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
+
+void	error_handler(char *str, t_stack *t, int standard)
+{
+	ft_putstr_fd(str, standard);
+	free_stacks(t);
+	exit (0);
+}
 
 void	input_checker(t_stack *t, char *str, int print_flag)
 {
@@ -37,7 +44,7 @@ void	input_checker(t_stack *t, char *str, int print_flag)
 	else if (!ft_strncmp(str, "rrr\n", 4))
 		move_rrr(t, print_flag);
 	else
-		ft_putstr_fd("Error\n", 2); // Abort if error happens.
+		error_handler("Error\n", t, 2);
 }
 
 void	read_from_stdin(t_stack *t, int print_flag)
@@ -53,21 +60,24 @@ void	read_from_stdin(t_stack *t, int print_flag)
 		free(str);
 		str = NULL;
 	}
-	free(str); // Would this double-free? Isn't it already free when it exits the loop?
-	str = NULL;
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	t;
+	int		max;
 
 	if (check_error(argc, argv, &t) < 0)
+	{	
+		max = 100000;
+		while(max)
+			max--;
 		return (ft_putstr_fd("Error\n", 2), 1);
+	}
 	read_from_stdin(&t, 0);
 	if (is_fully_sorted_ascending(&t, 0) && t.height_b == 0)
-		ft_printf("OK\n");
+		error_handler("OK\n", &t, 1);
 	else
-		ft_printf("KO\n");
-	free_stacks(&t);
+		error_handler("KO\n", &t, 1);
 	return (0);
 }
