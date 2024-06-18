@@ -6,7 +6,7 @@
 /*   By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:15:53 by upolat            #+#    #+#             */
-/*   Updated: 2024/06/08 16:02:59 by upolat           ###   ########.fr       */
+/*   Updated: 2024/06/18 22:38:36 by upolat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*process_remaining_data(char **str_static)
 // or NULL if EOF is reached or an error occurs.
 char	*get_next_line(int fd)
 {
-	static char	*str_static[OPEN_MAX];
+	static char	*str_static[100];
 	char		buffer[BUFFER_SIZE + 1];
 	ssize_t		bytes_read;
 	char		*line;
