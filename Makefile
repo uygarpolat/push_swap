@@ -6,10 +6,10 @@
 #    By: upolat <upolat@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 02:19:54 by upolat            #+#    #+#              #
-#    Updated: 2024/06/19 15:58:08 by upolat           ###   ########.fr        #
+#    Updated: 2024/06/19 15:59:01 by upolat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-iii
+
 NAME = push_swap
 NAME_BONUS = checker
 
